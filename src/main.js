@@ -106,7 +106,8 @@ function drawCanvas() {
 drawCanvas()
 
 function onSecond() {
-	var date = new Date();
+	const date = new Date();
+	date.setTime(date.getTime() + differenzaInMillisecondi);
 	var seconds = date.getSeconds();
 	if ((seconds === 2) && (isOutro === false)) {
 		music.paused = true;
@@ -120,6 +121,37 @@ function onSecond() {
 
 }
 
+async function getSynchronizedTime() {
+	try {
+		const response = await fetch('http://worldtimeapi.org/api/ip');
+		const data = await response.json();
+
+		// L'oggetto data dovrebbe contenere informazioni sull'orario
+		const synchronizedTime = new Date(data.utc_datetime);
+
+		return synchronizedTime;
+	} catch (error) {
+		console.log(error);
+		return new Date();
+	}
+}
+
+// Definisci le tre date
+let differenzaInMillisecondi = 0;
+var dataDispositivo = new Date();
+load(new Promise((resolve, reject) => {
+	// anything you want to do that stalls the game in loading state
+	getSynchronizedTime().then((dataApi) => {
+		differenzaInMillisecondi = dataApi - dataDispositivo;
+		console.log(dataDispositivo)
+		console.log(differenzaInMillisecondi)
+	});
+	resolve("ok")
+}))
+// Calcola la differenza di tempo in millisecondi
+
+
+
 
 onClick(() => music.paused = !music.paused)
 
@@ -132,6 +164,7 @@ onResize(() => drawCanvas())
 // Funzione per ottenere l'ora corrente nel formato hh:mm:ss
 function getCurrentTime() {
 	const now = new Date();
+	now.setTime(now.getTime() + differenzaInMillisecondi);
 	const hours = now.getHours().toString().padStart(2, '0');
 	const minutes = now.getMinutes().toString().padStart(2, '0');
 	const seconds = now.getSeconds().toString().padStart(2, '0');
