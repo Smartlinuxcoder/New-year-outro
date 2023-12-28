@@ -105,10 +105,10 @@ function drawCanvas() {
 }
 drawCanvas()
 
- function onSecond() {
+function onSecond() {
 	var date = new Date();
 	var seconds = date.getSeconds();
-	if ((seconds === 2) && (isOutro === false) ) {
+	if ((seconds === 2) && (isOutro === false)) {
 		music.paused = true;
 		isOutro = true
 		const outro = play("outro", {
@@ -121,7 +121,7 @@ drawCanvas()
 }
 
 
- onClick(() => music.paused = !music.paused)
+onClick(() => music.paused = !music.paused)
 
 
 /* Assuming you want to call the onUpdate function periodically, you might use setInterval
@@ -136,26 +136,25 @@ function getCurrentTime() {
 	const minutes = now.getMinutes().toString().padStart(2, '0');
 	const seconds = now.getSeconds().toString().padStart(2, '0');
 	return `${hours}:${minutes}:${seconds}`;
-  }
-  
-  // Aggiungi un testo per visualizzare l'ora
-  const timeLabel = add([
+}
+
+// Aggiungi un testo per visualizzare l'ora
+const timeLabel = add([
 	text(getCurrentTime(), {
-	  font: "font", // Aggiungi la dimensione del font prima del nome del font
+		font: "font", // Aggiungi la dimensione del font prima del nome del font
 	}),
 	color(6, 214, 216),
 	pos(center()),
 	scale(initialScale),
 	anchor("center"),
 	{
-	  value: getCurrentTime(),
+		value: getCurrentTime(),
 	},
-  ]);
+]);
 
-  // Aggiorna l'etichetta dell'ora ogni secondo
-  const interval = 1;
-  loop(interval, () => {
+// Aggiorna l'etichetta dell'ora ogni secondo
+const interval = 1;
+loop(interval, () => {
 	timeLabel.text = getCurrentTime();
 	onSecond()
-  });
-  
+});
