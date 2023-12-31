@@ -185,9 +185,16 @@ const timeLabel = add([
 	},
 ]);
 
+function tick() {
+	timeLabel.text = getCurrentTime();
+	onSecond()	
+}
 // Aggiorna l'etichetta dell'ora ogni secondo
-const interval = 1;
+/* const interval = 1;
 loop(interval, () => {
 	timeLabel.text = getCurrentTime();
 	onSecond()
 });
+ */
+
+onUpdate(() => tick())
